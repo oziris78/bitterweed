@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
+group 'com.github.oziris78'
+version '0.0.4'
+
+def mainClass = 'com.twistral.Main'
+
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+
+javafx {
+    version = "15"
+    modules = [ 'javafx.controls', 'javafx.media', 'javafx.web', 'javafx.swing' ]
+}
+
+
+dependencies {
+
+    implementation ('com.github.oziris78:toria-fx:v0.3') {
+        exclude group: 'org.openjfx'
+    }
+
+}
+
+
+
+
+application{
+    mainClassName(mainClass)
+}
+
+
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Main-Class': mainClass
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
